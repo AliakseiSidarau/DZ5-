@@ -19,18 +19,16 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private Joystick _moveJoystick;
     [SerializeField] private Joystick _cameraJoystick;
-    [SerializeField] private Rigidbody _rb;
 
-    private float _xRotation = 0f;
     private float _vertical;
     private float _horizontal;
     private float _mouseX;
     private float _mouseY;
 
-    private float x;
-    private float z;
+    private float _x;
+    private float _z;
 
-    [SerializeField] private Button jump;
+    [SerializeField] private Button _jump;
 
     public CharacterController Controller
     { get { return controller = controller ?? GetComponent<CharacterController>(); } }
@@ -39,13 +37,13 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         _isMobile = Application.isMobilePlatform;
-        _rb = GetComponent<Rigidbody>();
+        _jump.onClick.AddListener(Jump);
 
         if (!_isMobile)
         {
             _moveJoystick.gameObject.SetActive(false);
             _cameraJoystick.gameObject.SetActive(false);
-            jump.gameObject.SetActive(false);
+            _jump.gameObject.SetActive(false);
         }
 
         Debug.Log(_isMobile);
@@ -62,18 +60,18 @@ public class PlayerControl : MonoBehaviour
 
         if (_isMobile)
         {
-            x = _moveJoystick.Vertical;
-            z = _moveJoystick.Horizontal;
-            jump.onClick.AddListener(Jump);
+            _x = _moveJoystick.Vertical;
+            _z = _moveJoystick.Horizontal;
+          
         }
 
-        if (!_isMobile)
+        else
         {
-            x = Input.GetAxis("Horizontal");
-            z = Input.GetAxis("Vertical");
+            _x = Input.GetAxis("Horizontal");
+            _z = Input.GetAxis("Vertical");
         }
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector3 move = transform.right * _x + transform.forward * _z;
 
         controller.Move(move * speed * Time.deltaTime);
 
@@ -86,11 +84,6 @@ public class PlayerControl : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * _gravity);
         }
                
-
-        _rb.velocity = new Vector3(_moveJoystick.Horizontal * speed, _rb.velocity.y, _moveJoystick.Vertical * speed);
-        Vector3 direction = Vector3.forward * _moveJoystick.Vertical + Vector3.right * _moveJoystick.Horizontal;
-        _rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            
     }
 
     void Jump()

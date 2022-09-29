@@ -201,8 +201,7 @@ MonoBehaviour:
   jumpHeight: 3
   _moveJoystick: {fileID: 1465791431}
   _cameraJoystick: {fileID: 2109933091}
-  _rb: {fileID: 479795017}
-  jump: {fileID: 1767097084}
+  _jump: {fileID: 1767097084}
 --- !u!54 &479795017
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -414,9 +413,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mouseSensitivity: 1000
-  playerBody: {fileID: 479795015}
-  xRotation: 0
-  cameraJoystick: {fileID: 2109933091}
+  _playerBody: {fileID: 479795015}
+  _xRotation: 0
+  _cameraJoystick: {fileID: 2109933091}
 --- !u!1 &1287994204
 GameObject:
   m_ObjectHideFlags: 0
